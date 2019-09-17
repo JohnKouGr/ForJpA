@@ -7,16 +7,15 @@ package model;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -29,73 +28,63 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Course.findAll", query = "SELECT c FROM Course c")
-    , @NamedQuery(name = "Course.findById", query = "SELECT c FROM Course c WHERE c.id = :id")
-    , @NamedQuery(name = "Course.findByCoursename", query = "SELECT c FROM Course c WHERE c.coursename = :coursename")})
+    , @NamedQuery(name = "Course.findByCourseId", query = "SELECT c FROM Course c WHERE c.courseId = :courseId")
+    , @NamedQuery(name = "Course.findByCourseName", query = "SELECT c FROM Course c WHERE c.courseName = :courseName")})
 public class Course implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
-    private Integer id;
+    @Column(name = "course_id")
+    private Integer courseId;
     @Basic(optional = false)
-    @Column(name = "coursename")
-    private String coursename;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "course")
-    private Student student;
-    @JoinColumn(name = "id", referencedColumnName = "AT", insertable = false, updatable = false)
-    @OneToOne(optional = false)
-    private Student student1;
+    @Column(name = "course_name")
+    private String courseName;
+    @JoinColumn(name = "course_fk_id", referencedColumnName = "s_c_id")
+    @ManyToOne(optional = false)
+    private StudentCourse courseFkId;
 
     public Course() {
     }
 
-    public Course(Integer id) {
-        this.id = id;
+    public Course(Integer courseId) {
+        this.courseId = courseId;
     }
 
-    public Course(Integer id, String coursename) {
-        this.id = id;
-        this.coursename = coursename;
+    public Course(Integer courseId, String courseName) {
+        this.courseId = courseId;
+        this.courseName = courseName;
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getCourseId() {
+        return courseId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setCourseId(Integer courseId) {
+        this.courseId = courseId;
     }
 
-    public String getCoursename() {
-        return coursename;
+    public String getCourseName() {
+        return courseName;
     }
 
-    public void setCoursename(String coursename) {
-        this.coursename = coursename;
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
     }
 
-    public Student getStudent() {
-        return student;
+    public StudentCourse getCourseFkId() {
+        return courseFkId;
     }
 
-    public void setStudent(Student student) {
-        this.student = student;
-    }
-
-    public Student getStudent1() {
-        return student1;
-    }
-
-    public void setStudent1(Student student1) {
-        this.student1 = student1;
+    public void setCourseFkId(StudentCourse courseFkId) {
+        this.courseFkId = courseFkId;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (courseId != null ? courseId.hashCode() : 0);
         return hash;
     }
 
@@ -106,7 +95,7 @@ public class Course implements Serializable {
             return false;
         }
         Course other = (Course) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.courseId == null && other.courseId != null) || (this.courseId != null && !this.courseId.equals(other.courseId))) {
             return false;
         }
         return true;
@@ -114,7 +103,7 @@ public class Course implements Serializable {
 
     @Override
     public String toString() {
-        return "model.Course[ id=" + id + " ]";
+        return "model.Course[ courseId=" + courseId + " ]";
     }
     
 }

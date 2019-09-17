@@ -7,14 +7,15 @@ package model;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -27,72 +28,63 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Student.findAll", query = "SELECT s FROM Student s")
-    , @NamedQuery(name = "Student.findByAt", query = "SELECT s FROM Student s WHERE s.at = :at")
-    , @NamedQuery(name = "Student.findByStudentname", query = "SELECT s FROM Student s WHERE s.studentname = :studentname")})
+    , @NamedQuery(name = "Student.findByStudentId", query = "SELECT s FROM Student s WHERE s.studentId = :studentId")
+    , @NamedQuery(name = "Student.findByStudentName", query = "SELECT s FROM Student s WHERE s.studentName = :studentName")})
 public class Student implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "AT")
-    private Integer at;
+    @Column(name = "student_id")
+    private Integer studentId;
     @Basic(optional = false)
-    @Column(name = "studentname")
-    private String studentname;
-    @JoinColumn(name = "AT", referencedColumnName = "id", insertable = false, updatable = false)
-    @OneToOne(optional = false)
-    private Course course;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "student1")
-    private Course course1;
+    @Column(name = "student_name")
+    private String studentName;
+    @JoinColumn(name = "student_fk_id", referencedColumnName = "s_c_id")
+    @ManyToOne(optional = false)
+    private StudentCourse studentFkId;
 
     public Student() {
     }
 
-    public Student(Integer at) {
-        this.at = at;
+    public Student(Integer studentId) {
+        this.studentId = studentId;
     }
 
-    public Student(Integer at, String studentname) {
-        this.at = at;
-        this.studentname = studentname;
+    public Student(Integer studentId, String studentName) {
+        this.studentId = studentId;
+        this.studentName = studentName;
     }
 
-    public Integer getAt() {
-        return at;
+    public Integer getStudentId() {
+        return studentId;
     }
 
-    public void setAt(Integer at) {
-        this.at = at;
+    public void setStudentId(Integer studentId) {
+        this.studentId = studentId;
     }
 
-    public String getStudentname() {
-        return studentname;
+    public String getStudentName() {
+        return studentName;
     }
 
-    public void setStudentname(String studentname) {
-        this.studentname = studentname;
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
     }
 
-    public Course getCourse() {
-        return course;
+    public StudentCourse getStudentFkId() {
+        return studentFkId;
     }
 
-    public void setCourse(Course course) {
-        this.course = course;
-    }
-
-    public Course getCourse1() {
-        return course1;
-    }
-
-    public void setCourse1(Course course1) {
-        this.course1 = course1;
+    public void setStudentFkId(StudentCourse studentFkId) {
+        this.studentFkId = studentFkId;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (at != null ? at.hashCode() : 0);
+        hash += (studentId != null ? studentId.hashCode() : 0);
         return hash;
     }
 
@@ -103,7 +95,7 @@ public class Student implements Serializable {
             return false;
         }
         Student other = (Student) object;
-        if ((this.at == null && other.at != null) || (this.at != null && !this.at.equals(other.at))) {
+        if ((this.studentId == null && other.studentId != null) || (this.studentId != null && !this.studentId.equals(other.studentId))) {
             return false;
         }
         return true;
@@ -111,7 +103,7 @@ public class Student implements Serializable {
 
     @Override
     public String toString() {
-        return "model.Student[ at=" + at + " ]";
+        return "model.Student[ studentId=" + studentId + " ]";
     }
     
 }

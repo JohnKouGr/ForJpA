@@ -14,7 +14,7 @@ public class DatabaseConnection {
 
         Context initContext = new InitialContext();
         Context envContext = (Context) initContext.lookup("java:/comp/env");
-        DataSource ds = (DataSource) envContext.lookup("jdbc/poll");
+        DataSource ds = (DataSource) envContext.lookup("jdbc/ForEntity");
         conn = ds.getConnection();
 
         return conn;
