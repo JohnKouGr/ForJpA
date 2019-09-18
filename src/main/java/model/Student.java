@@ -13,9 +13,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Student.findAll", query = "SELECT s FROM Student s")
     , @NamedQuery(name = "Student.findByStudentId", query = "SELECT s FROM Student s WHERE s.studentId = :studentId")
-    , @NamedQuery(name = "Student.findByStudentName", query = "SELECT s FROM Student s WHERE s.studentName = :studentName")})
+    , @NamedQuery(name = "Student.findByStudentname", query = "SELECT s FROM Student s WHERE s.studentname = :studentname")})
 public class Student implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -39,11 +39,11 @@ public class Student implements Serializable {
     @Column(name = "student_id")
     private Integer studentId;
     @Basic(optional = false)
-    @Column(name = "student_name")
-    private String studentName;
-    @JoinColumn(name = "student_fk_id", referencedColumnName = "s_c_id")
-    @ManyToOne(optional = false)
-    private StudentCourse studentFkId;
+    @Column(name = "studentname")
+    private String studentname;
+    @JoinColumn(name = "student_id", referencedColumnName = "course_id", insertable = false, updatable = false)
+    @OneToOne(optional = false)
+    private Course course;
 
     public Student() {
     }
@@ -52,9 +52,9 @@ public class Student implements Serializable {
         this.studentId = studentId;
     }
 
-    public Student(Integer studentId, String studentName) {
+    public Student(Integer studentId, String studentname) {
         this.studentId = studentId;
-        this.studentName = studentName;
+        this.studentname = studentname;
     }
 
     public Integer getStudentId() {
@@ -65,20 +65,20 @@ public class Student implements Serializable {
         this.studentId = studentId;
     }
 
-    public String getStudentName() {
-        return studentName;
+    public String getStudentname() {
+        return studentname;
     }
 
-    public void setStudentName(String studentName) {
-        this.studentName = studentName;
+    public void setStudentname(String studentname) {
+        this.studentname = studentname;
     }
 
-    public StudentCourse getStudentFkId() {
-        return studentFkId;
+    public Course getCourse() {
+        return course;
     }
 
-    public void setStudentFkId(StudentCourse studentFkId) {
-        this.studentFkId = studentFkId;
+    public void setCourse(Course course) {
+        this.course = course;
     }
 
     @Override
