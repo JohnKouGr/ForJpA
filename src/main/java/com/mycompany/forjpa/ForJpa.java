@@ -19,8 +19,6 @@ public class ForJpa {
 
         Course c = em.find(Course.class, 1);
 
-//        r.setCoursename("abhgfba");
-        
         em.getTransaction().begin();
         em.persist(c);
         em.getTransaction().commit();
